@@ -1,20 +1,32 @@
 import React from 'react'
 
 const Square = props => {
-    const [state, setState] = React.useState({value: null}) 
     return (
       <button 
         className="square" 
-        onClick={() => setState({value: 'X'})}
+        onClick={() => props.onClick({value: 'X'})}
         >
-        {state.value}
+        {props.value}
       </button>
     );
 }
 
 const Board = props => {
+    const [state, setState] = React.useState({squares: Array(9).fill(null)})
+    
+    const handleClick = (i) =>{
+        const squares = state.squares.slice();
+        squares[i] = 'X'
+        setState({squares: squares})
+    }
+
     const renderSquare = (i) => {
-        return <Square value={i} />
+        return (
+            <Square
+                value={state.squares[i]}
+                onClick={() => handleClick(i)}
+            />
+        )
     }
     const status = 'Next player: X';
 
